@@ -1,0 +1,2 @@
+include ':app', ':log_core'
+rootProject.name='AwesomeLog'

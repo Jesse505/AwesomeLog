@@ -1,0 +1,99 @@
+package com.example.jesse.log.stragety;
+
+import android.content.Context;
+import android.os.Build;
+import com.example.jesse.log.ALogThreadPool;
+import com.example.jesse.log.config.ConfigCenter;
+import com.example.jesse.log.io.LightLog;
+import com.example.jesse.log.util.LogUtils;
+import com.example.jesse.log.util.NetworkManager;
+
+public class DiskDailyLogStrategy implements DiskLogStrategy {
+
+    private static final String NEW_LINE = System.getProperty("line.separator");
+    private static final String SEPARATOR = ",";
+    private Context context;
+
+    private DiskDailyLogStrategy(Builder builder) {
+        context = builder.context;
+        initNativeLogger();
+    }
+
+    private void initNativeLogger() {
+        LightLog.newInstance().init(ConfigCenter.getInstance().getmCachePath(),
+                                    ConfigCenter.getInstance().getLogPath(),
+                ConfigCenter.getInstance().getMaxLogSizeMb(),
+                ConfigCenter.getInstance().getMaxKeepDaily());
+    }
+
+    @Override
+    public void writeCommonInfo() {
+        ALogThreadPool.getFixedThreadPool().execute(new Runnable() {
+            @Override
+            public void run() {
+                String commonInfo = getCommonInfo();
+                writeLog(commonInfo);
+            }
+        });
+    }
+
+    private String getCommonInfo() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(Build.MODEL);
+        builder.append(SEPARATOR);
+        builder.append(NetworkManager.getInstance().getNetworkType(context));
+        builder.append(SEPARATOR);
+        builder.append(LogUtils.getVersionName(context));
+        builder.append(NEW_LINE);
+        return builder.toString();
+    }
+
+    @Override
+    public void log(int level, String tag, final String message) {
+        ALogThreadPool.getFixedThreadPool().execute(new Runnable() {
+            @Override
+            public void run() {
+                writeLog(message);
+            }
+        });
+    }
+
+    @Override
+    public void flush() {
+        LightLog.newInstance().flush();
+    }
+
+
+    private void writeLog(String message) {
+        LightLog.newInstance().write(message.getBytes());
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
+    @Override
+    public String getLogPath() {
+        return ConfigCenter.getInstance().getLogPath();
+    }
+
+
+    public static final class Builder {
+
+        private Context context;
+
+        public Builder() {
+
+        }
+
+        public Builder context(Context context) {
+            this.context = context.getApplicationContext();
+            return this;
+        }
+
+        public DiskDailyLogStrategy build() {
+            return new DiskDailyLogStrategy(this);
+        }
+    }
+
+}
