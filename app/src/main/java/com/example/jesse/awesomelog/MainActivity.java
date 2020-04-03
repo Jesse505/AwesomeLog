@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     @AfterPermissionGranted(RC_STORAGE_PERM)
     public void write2file() {
         if (hasWriteAndReadPermissions()) {
-            ALog.i("zyf", "hello AwesomeLog 赵一飞牛逼");
+            ALog.i("zyf", "hello AwesomeLog");
         } else {
             // Ask for both permissions
             EasyPermissions.requestPermissions(

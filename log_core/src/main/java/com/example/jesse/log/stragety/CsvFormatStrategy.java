@@ -6,15 +6,13 @@ import com.example.jesse.log.util.LogUtils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CsvFormatStrategy implements DiskLogStrategy {
 
     private static final String NEW_LINE = System.getProperty("line.separator");
     private static final String SEPARATOR = ",";
-    private static final String LEFT_LABEL = " [ ";
-    private static final String RIGHT_LABLE = " ] ";
-    private static final String PID = "pid : ";
-    private static final String THREAD_NAME = "thread : ";
     private final Date date;
     private final SimpleDateFormat dateFormat;
     private final DiskLogStrategy logStrategy;
@@ -74,23 +72,22 @@ public class CsvFormatStrategy implements DiskLogStrategy {
     }
 
     /**
-     * csv格式如果有逗号，整体用双引号括起来；如果里面还有双引号就替换成两个双引号，这样导出来的格式就不会有问题了
+     * csv格式如果有逗号或者换行的话整体用双引号括起来；如果里面还有双引号就替换成两个双引号，
      * @param message
      * @return
      */
     private String csvFormatHandle(String message){
         if (TextUtils.isEmpty(message)) return message;
         String messageCSV = message;
-        // 将逗号转义
-        if(message.contains(",")){
+        Matcher matcher = Pattern.compile("[\r\n\t]").matcher(messageCSV);
+        // 如果包含逗号或者换行的话就在前后添加双引号
+        if(message.contains(",") || matcher.find()){
             // 先将双引号转义，避免两边加了双引号后转义错误
             if(message.contains("\"")){
                 messageCSV = message.replace("\"", "\"\"");
             }
             messageCSV = "\"" + messageCSV + "\"";
         }
-        // 消除所有空格换行符
-        messageCSV = messageCSV.replaceAll("[\r\n\t]", "").replaceAll(" ", "");
         return messageCSV;
     }
 
