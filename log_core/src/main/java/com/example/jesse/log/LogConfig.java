@@ -58,6 +58,17 @@ public class LogConfig {
      */
     private LogEncrypt logEncrypt;
 
+    /**
+     * 日志保存路径
+     */
+    private String mLogPath;
+
+    /**
+     * 日志缓存路径
+     */
+    private String mCachePath;
+
+
 
     public LogConfig(Context context) {
         mContext = context;
@@ -108,6 +119,24 @@ public class LogConfig {
 
     public LogConfig maxKeepDaily(int maxKeepDaily) {
         this.maxKeepDaily = maxKeepDaily;
+        return this;
+    }
+
+    public String getmLogPath() {
+        return mLogPath;
+    }
+
+    public LogConfig setmLogPath(String mLogPath) {
+        this.mLogPath = mLogPath;
+        return this;
+    }
+
+    public String getmCachePath() {
+        return mCachePath;
+    }
+
+    public LogConfig setmCachePath(String mCachePath) {
+        this.mCachePath = mCachePath;
         return this;
     }
 

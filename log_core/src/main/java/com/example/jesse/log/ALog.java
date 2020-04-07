@@ -51,6 +51,8 @@ public final class ALog {
         configCenter.setMaxKeepDaily(logConfig.getMaxKeepDaily());
         configCenter.setMaxLogSizeMb(logConfig.getMaxLogSizeMb());
         configCenter.setDeviceName(logConfig.getDeviceName());
+        configCenter.setmLogPath(logConfig.getmLogPath());
+        configCenter.setmCachePath(logConfig.getmCachePath());
     }
 
     public static void setLogger(@NonNull Logger logger) {

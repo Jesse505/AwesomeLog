@@ -131,6 +131,14 @@ public class ConfigCenter {
         return mCachePath;
     }
 
+    public void setmLogPath(String mLogPath) {
+        this.mLogPath = mLogPath;
+    }
+
+    public void setmCachePath(String mCachePath) {
+        this.mCachePath = mCachePath;
+    }
+
     public Context getContext() {
         if (mContext == null) throw new RuntimeException("ConfigCenter context can not be null");
         return mContext;
