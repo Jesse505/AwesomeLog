@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import com.example.jesse.log.ALogThreadPool;
 import com.example.jesse.log.config.ConfigCenter;
+import com.example.jesse.log.encrypt.LogEncrypt;
 import com.example.jesse.log.io.LightLog;
 import com.example.jesse.log.util.LogUtils;
 import com.example.jesse.log.util.NetworkManager;
@@ -13,9 +14,11 @@ public class DiskDailyLogStrategy implements DiskLogStrategy {
     private static final String NEW_LINE = System.getProperty("line.separator");
     private static final String SEPARATOR = ",";
     private Context context;
+    private LogEncrypt logEncrypt;
 
     private DiskDailyLogStrategy(Builder builder) {
         context = builder.context;
+        logEncrypt = builder.logEncrypt;
         initNativeLogger();
     }
 
@@ -65,6 +68,9 @@ public class DiskDailyLogStrategy implements DiskLogStrategy {
 
 
     private void writeLog(String message) {
+        if (null != logEncrypt) {
+            message = logEncrypt.encrypt(message);
+        }
         LightLog.newInstance().write(message.getBytes());
     }
 
@@ -81,9 +87,14 @@ public class DiskDailyLogStrategy implements DiskLogStrategy {
     public static final class Builder {
 
         private Context context;
+        private LogEncrypt logEncrypt;
 
         public Builder() {
+        }
 
+        public Builder setLogEncrypt(LogEncrypt logEncrypt) {
+            this.logEncrypt = logEncrypt;
+            return this;
         }
 
         public Builder context(Context context) {

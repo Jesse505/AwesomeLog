@@ -100,6 +100,8 @@ public class CsvFormatStrategy implements DiskLogStrategy {
         SimpleDateFormat dateFormat;
         DiskLogStrategy logStrategy;
         private Builder() {
+            dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA);
+            logStrategy = new DiskDailyLogStrategy.Builder().build();
         }
         public Builder dateFormat(SimpleDateFormat val) {
             dateFormat = val;
@@ -112,12 +114,6 @@ public class CsvFormatStrategy implements DiskLogStrategy {
         }
 
         public CsvFormatStrategy build() {
-            if (dateFormat == null) {
-                dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA);
-            }
-            if (logStrategy == null) {
-                logStrategy = new DiskDailyLogStrategy.Builder().build();
-            }
             return new CsvFormatStrategy(this);
         }
     }

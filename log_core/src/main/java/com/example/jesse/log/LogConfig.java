@@ -2,6 +2,8 @@ package com.example.jesse.log;
 
 import android.content.Context;
 
+import com.example.jesse.log.encrypt.LogEncrypt;
+
 
 public class LogConfig {
 
@@ -51,9 +53,19 @@ public class LogConfig {
      */
     private int maxKeepDaily = 7;
 
+    /**
+     * 日志加密方式
+     */
+    private LogEncrypt logEncrypt;
+
 
     public LogConfig(Context context) {
         mContext = context;
+    }
+
+    public LogConfig setLogEncrypt(LogEncrypt logEncrypt) {
+        this.logEncrypt = logEncrypt;
+        return this;
     }
 
     public LogConfig deviceId(String deviceId) {
@@ -101,6 +113,10 @@ public class LogConfig {
 
     public boolean isAutoBackup() {
         return autoBackup;
+    }
+
+    public LogEncrypt getLogEncrypt() {
+        return logEncrypt;
     }
 
     public Context getContext() {

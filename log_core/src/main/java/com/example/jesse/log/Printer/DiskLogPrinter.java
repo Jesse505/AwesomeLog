@@ -2,7 +2,7 @@ package com.example.jesse.log.Printer;
 
 import android.content.Context;
 
-import com.example.jesse.log.ALog;
+import com.example.jesse.log.encrypt.LogEncrypt;
 import com.example.jesse.log.logger.Logger;
 import com.example.jesse.log.stragety.CsvFormatStrategy;
 import com.example.jesse.log.stragety.DiskDailyLogStrategy;
@@ -14,10 +14,11 @@ public class DiskLogPrinter implements DiskLogStrategy, Printer {
     private DiskLogStrategy formatStrategy;
 
 
-    public DiskLogPrinter(Context context) {
+    public DiskLogPrinter(Context context, LogEncrypt logEncrypt) {
         formatStrategy = CsvFormatStrategy.newBuilder()
                 .logStrategy(DiskDailyLogStrategy
                         .newBuilder()
+                        .setLogEncrypt(logEncrypt)
                         .context(context.getApplicationContext())
                         .build())
                 .build();

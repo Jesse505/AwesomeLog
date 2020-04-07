@@ -2,7 +2,6 @@ package com.example.jesse.log;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-
 import com.example.jesse.log.Printer.AndroidLogPrinter;
 import com.example.jesse.log.Printer.DiskLogPrinter;
 import com.example.jesse.log.Printer.Printer;
@@ -32,7 +31,7 @@ public final class ALog {
         if (sDiskLogPrinter == null && sAndroidLogPrinter == null) {
             final Context applicationContext = logConfig.getContext().getApplicationContext();
             configCenter.setContext(applicationContext);
-            sDiskLogPrinter = new DiskLogPrinter(logConfig.getContext());
+            sDiskLogPrinter = new DiskLogPrinter(logConfig.getContext(), logConfig.getLogEncrypt());
             sAndroidLogPrinter = new AndroidLogPrinter() {
                 @Override
                 public boolean isLoggable(int priority, String tag) {
