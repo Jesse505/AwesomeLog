@@ -42,7 +42,11 @@ public class DiskDailyLogStrategy implements DiskLogStrategy {
 
     private String getCommonInfo() {
         StringBuilder builder = new StringBuilder();
+        builder.append(Build.BRAND);
+        builder.append(SEPARATOR);
         builder.append(Build.MODEL);
+        builder.append(SEPARATOR);
+        builder.append(android.os.Build.VERSION.SDK_INT);
         builder.append(SEPARATOR);
         builder.append(NetworkManager.getInstance().getNetworkType(context));
         builder.append(SEPARATOR);

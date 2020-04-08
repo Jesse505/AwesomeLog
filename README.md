@@ -6,8 +6,8 @@ AwesomeLog 是一个基于mmap， 高性能，高可用的，无丢失的，简�
 
 | 特性|简介|
 | ------ | ------ |
-|自定义日志保存路径 |默认保存在Android/data/com.xxxx.xxxx/log中|
-|自定义日志缓存路径|默认保存在Android/data/com.xxxx.xxxx/cache中|
+|自定义日志保存路径 |默认保存在Android/data/com.xxxx.xxxx/files/log中|
+|自定义日志缓存路径|默认保存在Android/data/com.xxxx.xxxx/files/cache中|
 |自定义日志最大容量|默认70M，超过最大容量就不再写入|
 |日志按天保存，自定义日志保存天数|默认保存最近7天的日志，超过七天的日志将会被删除|
 |自定义日志加密方式|默认不加密，可以实现LogEncrypt接口，实现自定义的加密方式|

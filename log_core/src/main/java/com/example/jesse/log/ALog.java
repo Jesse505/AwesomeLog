@@ -43,14 +43,8 @@ public final class ALog {
             sLogger.addPrinter(sAndroidLogPrinter);
             NetworkManager.getInstance().registerNetworChangeListener(applicationContext);
         }
-
-        configCenter.setDeviceId(logConfig.getDeviceId());
-        configCenter.setOsVersion(logConfig.getOsVersion());
-        configCenter.setHd(logConfig.isHd());
-        configCenter.setAppVersion(logConfig.getAppVersion());
         configCenter.setMaxKeepDaily(logConfig.getMaxKeepDaily());
         configCenter.setMaxLogSizeMb(logConfig.getMaxLogSizeMb());
-        configCenter.setDeviceName(logConfig.getDeviceName());
         configCenter.setmLogPath(logConfig.getmLogPath());
         configCenter.setmCachePath(logConfig.getmCachePath());
     }

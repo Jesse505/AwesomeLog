@@ -2,13 +2,9 @@ package com.example.jesse.log.config;
 
 import android.content.Context;
 import android.text.TextUtils;
+
 import java.io.File;
 
-/**
- * 日志配置文件
- *
- * @author dongyk on 2019/2/20
- */
 public class ConfigCenter {
     /**
      * 默认保存7天日志
@@ -38,59 +34,19 @@ public class ConfigCenter {
      */
     private String mCachePath;
 
-    /**
-     * 商家ID
-     */
-    private String mKdtId;
-
     private Context mContext;
 
-    /**
-     * 设备id
-     */
-    private String deviceId;
 
-
-    /**
-     * 是否为平板
-     */
-    private boolean hd;
-
-
-    /**
-     * Android 系统版本  Andorid x.x
-     */
-    private String osVersion;
-
-    /**
-     * app版本
-     */
-    private String appVersion;
-
-    /**
-     * 设备名称
-     */
-    private String deviceName;
-
-
-    private static class ZanLoggerConfigHolder {
+    private static class ConfigHolder {
         private static final ConfigCenter instance = new ConfigCenter();
     }
 
     public static ConfigCenter getInstance() {
-        return ZanLoggerConfigHolder.instance;
+        return ConfigHolder.instance;
     }
 
     private ConfigCenter() {
 
-    }
-
-    public boolean isHd() {
-        return hd;
-    }
-
-    public void setHd(boolean hd) {
-        this.hd = hd;
     }
 
     public int getMaxKeepDaily() {
@@ -99,14 +55,6 @@ public class ConfigCenter {
 
     public void setMaxKeepDaily(int maxKeepDaily) {
         this.mMaxKeepDaily = maxKeepDaily;
-    }
-
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
     }
 
     public double getMaxLogSizeMb() {
@@ -144,56 +92,19 @@ public class ConfigCenter {
         return mContext;
     }
 
-    public String getPackageName() {
-        return getContext().getPackageName();
-    }
-
     public void setContext(Context context) {
         mContext = context;
     }
 
-
-    public String getKdtId() {
-        return mKdtId;
-    }
-
-    public void setKdtId(String kdtId) {
-        mKdtId = kdtId;
-    }
-
-    public String getOsVersion() {
-        return osVersion;
-    }
-
-    public void setOsVersion(String osVersion) {
-        this.osVersion = osVersion;
-    }
-
-    public String getAppVersion() {
-        return appVersion;
-    }
-
-    public void setAppVersion(String appVersion) {
-        this.appVersion = appVersion;
-    }
-
-    public String getDeviceName() {
-        return deviceName;
-    }
-
-    public void setDeviceName(String deviceName) {
-        this.deviceName = deviceName;
-    }
-
     /**
-     * /sdcard/Android/data/xx.xx.xx/files/zanLogger/log
+     * /sdcard/Android/data/xx.xx.xx/files/log
      *
      * @return 返回默认目录
      */
     private String getDefaultLogPath() {
         String mPath = new File(getContext().getExternalFilesDir(null), "log").getAbsolutePath();
         File logFile = new File(mPath);
-        if (!logFile.exists()){
+        if (!logFile.exists()) {
             logFile.mkdirs();
         }
         return mPath;
@@ -202,7 +113,7 @@ public class ConfigCenter {
     private String getDefaultCachePath() {
         String mPath = new File(getContext().getExternalFilesDir(null), "cache").getAbsolutePath();
         File logFile = new File(mPath);
-        if (!logFile.exists()){
+        if (!logFile.exists()) {
             logFile.mkdirs();
         }
         return mPath;
