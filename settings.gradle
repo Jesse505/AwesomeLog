@@ -1,2 +1,2 @@
-include ':app', ':log_core'
+include ':app', ':awesome-log'
 rootProject.name='AwesomeLog'
