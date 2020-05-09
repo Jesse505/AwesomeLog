@@ -11,11 +11,14 @@ import com.android.jesse.log.logger.ALogger;
 import com.android.jesse.log.logger.Logger;
 import com.android.jesse.log.util.NetworkManager;
 
+import me.weishu.reflection.Reflection;
+
 public final class ALog {
 
     private static Logger sLogger = new ALogger();
     private static DiskLogPrinter sDiskLogPrinter = null;
     private static AndroidLogPrinter sAndroidLogPrinter = null;
+
 
     private ALog() {
         //no instance
@@ -46,6 +49,12 @@ public final class ALog {
         configCenter.setMaxLogSizeMb(logConfig.getMaxLogSizeMb());
         configCenter.setmLogPath(logConfig.getmLogPath());
         configCenter.setmCachePath(logConfig.getmCachePath());
+
+        try {
+            Reflection.unseal(logConfig.getContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void setLogger(Logger logger) {
