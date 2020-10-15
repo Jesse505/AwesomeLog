@@ -259,7 +259,7 @@ public class LightLog {
             rafi = new RandomAccessFile(cacheFile, "rw");
             fci = rafi.getChannel();
 
-            //如果缓存大小大于零，先flush下
+            //如果缓存大小大于零，先flush下,因为可能缓存文件里有上次启动app写入的数据，所以先要flush一下
             if (fci.size() > 0) {
                 String currentDate = DateUtil.getDateStr(System.currentTimeMillis());
                 flush(currentDate);
