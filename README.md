@@ -17,7 +17,7 @@ AwesomeLog 是一个基于mmap， 高性能，高可用的，无丢失的，简�
 
 ## 添加依赖
 ```groovy
-implementation 'com.android.jesse:awesome-log:1.0.2'
+implementation 'com.android.jesse:awesome-log:1.0.6'
 ```
 
 ## 初始化
