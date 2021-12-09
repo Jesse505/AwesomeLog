@@ -16,9 +16,25 @@ AwesomeLog 是一个基于mmap， 高性能，高可用的，无丢失的，简�
 |支持控制台打印日志信息|在写入日志到本地的同时，也会在控制台输出相应的日志信息|
 
 ## 添加依赖
-```groovy
-implementation 'com.github.Jesse505:AwesomeLog:1.0.7'
-```
+
+1. 在项目根目录的build.gradle 中添加:
+
+   ```groovy
+   	allprojects {
+   		repositories {
+   			...
+   			maven { url 'https://jitpack.io' }
+   		}
+   	}
+   ```
+
+2. 添加依赖
+
+   ```groovy
+   dependencies {
+   	        implementation 'com.github.Jesse505:AwesomeLog:1.0.7'
+   	}
+   ```
 
 ## 初始化
 ```
