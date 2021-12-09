@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+
+group = 'com.github.Jesse505'
 
 android {
     compileSdkVersion 28
@@ -9,10 +10,9 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0.6"
+        versionCode 107
+        versionName "1.0.7"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
 
@@ -29,120 +29,4 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'me.weishu:free_reflection:2.2.0'
-}
-
-Properties properties = new Properties()
-File localPropertiesFile = project.rootProject.file("local.properties");
-if (localPropertiesFile.exists()) {
-    properties.load(localPropertiesFile.newDataInputStream())
-}
-File projectPropertiesFile = project.file("project.properties");
-if (projectPropertiesFile.exists()) {
-    properties.load(projectPropertiesFile.newDataInputStream())
-}
-
-//读取属性
-def projectRepositoryName = properties.getProperty("project.repositoryName")
-def projectName = properties.getProperty("project.name")
-def projectGroupId = properties.getProperty("project.groupId")
-def projectArtifactId = properties.getProperty("project.artifactId")
-def projectVersionName = android.defaultConfig.versionName
-def projectPackaging = properties.getProperty("project.packaging")
-def projectSiteUrl = properties.getProperty("project.siteUrl")
-def projectGitUrl = properties.getProperty("project.gitUrl")
-
-def developerId = properties.getProperty("developer.id")
-def developerName = properties.getProperty("developer.name")
-def developerEmail = properties.getProperty("developer.email")
-
-def bintrayUser = properties.getProperty("bintray.user")
-def bintrayApikey = properties.getProperty("bintray.apikey")
-
-def javadocName = properties.getProperty("javadoc.name")
-
-group = projectGroupId
-version = projectVersionName
-
-task generateSourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier 'sources'
-}
-
-task generateJavadocs(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task generateJavadocsJar(type: Jar, dependsOn: generateJavadocs) {
-    from generateJavadocs.destinationDir
-    classifier 'javadoc'
-}
-
-generateJavadocs {
-    options {
-        encoding "UTF-8"
-        charSet 'UTF-8'
-        author true
-        links "http://docs.oracle.com/javase/7/docs/api"
-        title javadocName
-    }
-}
-
-artifacts {
-    archives generateJavadocsJar
-    archives generateSourcesJar
-}
-
-// 配置生成POM.xml文件的参数
-install {
-    repositories.mavenInstaller {
-        pom {
-            project {
-                name projectName
-                groupId projectGroupId
-                artifactId projectArtifactId
-                version projectVersionName
-                packaging projectPackaging
-                url projectSiteUrl
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id developerId
-                        name developerName
-                        email developerEmail
-                    }
-                }
-                scm {
-                    connection projectGitUrl
-                    developerConnection projectGitUrl
-                    url projectSiteUrl
-                }
-            }
-        }
-    }
-}
-
-bintray {
-    user = bintrayUser
-    key = bintrayApikey
-
-    pkg {
-        repo = projectRepositoryName
-        name = projectName
-        websiteUrl = projectSiteUrl
-        vcsUrl = projectGitUrl
-        licenses = ["Apache-2.0"]
-        publish = true
-        version {
-            name = projectVersionName + '-release'
-            desc = "Awesome Log " + projectVersionName
-            vcsTag = projectVersionName
-        }
-    }
-    configurations = ['archives']
 }
